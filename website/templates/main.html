@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block navbar_block %}
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+	  <li><a href="" data-toggle="modal" data-target="#modal-table-ids">填表</a></li>
+	  {% if user.is_authenticated %}
+            <li><a href="">Profile</a></li>
+	    <li><a href="auth_logout?next=/gathering/">Logout</a></li>
+	    <li><a href="show_all_tables">我的表格</a></li>
+	    <li><a href="publish_table">发布表格</a></li>
+	  {% else %}
+	    <li><a href="auth_login">Login</a></li>
+	  {% endif %}
+          <li><a href="">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+{% endblock %}

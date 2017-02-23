@@ -51,7 +51,7 @@ def login_success():
 
 @account.route("/register/", methods=['GET', 'POST'])
 def register():
-    return 'register'
+    return render_template('registration_form.html')
 
 @account.route("/logout/", methods=['GET'])
 def logout():
