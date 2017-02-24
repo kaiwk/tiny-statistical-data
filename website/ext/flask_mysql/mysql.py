@@ -1,11 +1,7 @@
 from __future__ import absolute_import
 import pymysql
 
-try:
-    from flask import _app_ctx_stack as _ctx_stack
-except ImportError:
-    from flask import _request_ctx_stack as _ctx_stack
-
+from flask import g
 
 class MySQL(object):
     def __init__(self, app=None, **connect_args):
@@ -62,13 +58,12 @@ class MySQL(object):
         return pymysql.connect(**self.connect_args)
 
     def teardown_request(self, exception):
-        ctx = _ctx_stack.top
-        if hasattr(ctx, "mysql_db"):
-            ctx.mysql_db.close()
+        db = getattr(g, '_database', None)
+        if db is not None:
+            db.close()
 
     def get_db(self):
-        ctx = _ctx_stack.top
-        if ctx is not None:
-            if not hasattr(ctx, "mysql_db"):
-                ctx.mysql_db = self.connect()
-            return ctx.mysql_db
+        db = getattr(g, '_database', None)
+        if db is None:
+            db = g._database = self.connect()
+        return db

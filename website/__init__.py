@@ -2,6 +2,7 @@ from flask import Flask, g
 import flask_login
 
 from .ext.flask_mysql.mysql import MySQL
+from werkzeug.local import LocalProxy
 
 _app = Flask(__name__)
 _app.secret_key = 'this is a screte key!'
@@ -18,9 +19,9 @@ def _create_db():
     _app.config['MYSQL_DATABASE_DB'] = 'tiny_statistical_data'
     _app.config['MYSQL_DATABASE_HOST'] = 'localhost'
     _app.config['MYSQL_CURSOR_CLASS'] = 'dictcursor'
-    return MySQL(_app)
+    return LocalProxy(MySQL(_app).get_db)
 
-db_helper = _create_db()
+db = _create_db()
 
 # blueprint
 def register_blueprint():

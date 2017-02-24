@@ -1,4 +1,4 @@
-from website import db_helper
+from website import db
 
 class User(object):
 
@@ -18,7 +18,7 @@ class User(object):
 
     @classmethod
     def validate_and_login(cls, username, password):
-        cursor = db_helper.get_db().cursor()
+        cursor = db.cursor()
         cursor.execute(
             'select id as userid, username, password, email, face \
             from user where username=%s and password=%s',
@@ -29,7 +29,7 @@ class User(object):
 
     @classmethod
     def validate_and_register(cls, username, email, password):
-        cursor = db_helper.get_db().cursor()
+        cursor = db.cursor()
         cursor.execute(
             'select id as userid from user where username=%s or email=%s',
             (username, email,))
@@ -41,7 +41,7 @@ class User(object):
 
     @classmethod
     def get_user_by_user_id(cls, user_id):
-        cursor = db_helper.get_db().cursor()
+        cursor = db.cursor()
         cursor.execute('select id as userid, username, password, email, face from user where id=%s',
                        (user_id,))
         fetch_res = cursor.fetchone()
@@ -50,7 +50,7 @@ class User(object):
 
     @classmethod
     def get_user_by_name(cls, username):
-        cursor = db_helper.get_db().cursor()
+        cursor = db.cursor()
         cursor.execute(
             'select id as userid, username, password, email, face \
             from user where username=%s',
@@ -61,12 +61,12 @@ class User(object):
 
     @staticmethod
     def save(username, email, password, face=None):
-        cursor = db_helper.get_db().cursor()
+        cursor = db.cursor()
         cursor.execute(
             'insert user (username, email, password, face) values (%s, %s, %s, %s)',
             (username, email, password, face,)
         )
-        db_helper.get_db().commit()
+        db.commit()
         return True
 
     @property
