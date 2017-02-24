@@ -36,7 +36,7 @@ class User(object):
         fetch_res = cursor.fetchone()
         if fetch_res:
             return False
-        User.save(cls, username, email, password)
+        User.save(username, email, password)
         return True
 
     @classmethod
@@ -59,8 +59,8 @@ class User(object):
         if fetch_res:
             return cls(fetch_res)
 
-    @classmethod
-    def save(cls, username, email, password, face=None):
+    @staticmethod
+    def save(username, email, password, face=None):
         cursor = db_helper.get_db().cursor()
         cursor.execute(
             'insert user (username, email, password, face) values (%s, %s, %s, %s)',

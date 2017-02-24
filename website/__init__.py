@@ -25,7 +25,9 @@ db_helper = _create_db()
 # blueprint
 def register_blueprint():
     from .views.account import account
+    from .views.statistics import statistics
     _app.register_blueprint(account)
+    _app.register_blueprint(statistics)
     return _app
 
 __all__ = [

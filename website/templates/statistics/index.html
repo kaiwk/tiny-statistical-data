@@ -8,14 +8,14 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
 	  <li><a href="" data-toggle="modal" data-target="#modal-table-ids">填表</a></li>
-	  {% if user.is_authenticated %}
+	  {#% if user.is_authenticated %#}
             <li><a href="">Profile</a></li>
 	    <li><a href="auth_logout?next=/gathering/">Logout</a></li>
 	    <li><a href="show_all_tables">我的表格</a></li>
 	    <li><a href="publish_table">发布表格</a></li>
-	  {% else %}
+	  {#% else %#}
 	    <li><a href="auth_login">Login</a></li>
-	  {% endif %}
+	  {#% endif %#}
           <li><a href="">Help</a></li>
         </ul>
         <form class="navbar-form navbar-right">
@@ -24,4 +24,17 @@
       </div>
     </div>
   </nav>
+{% endblock %}
+
+{% block body_block %}
+  <link href="{{ url_for('static', filename='css/statistics.css') }}" rel="stylesheet"/>
+  <div class="container">
+    <div class="row">
+      <h2>Slider Search box</h2>
+      <div class="search">
+        <input type="text" class="form-control input-sm" maxlength="64" placeholder="Search" />
+        <button type="submit" class="btn btn-primary btn-sm">Search</button>
+      </div>
+    </div>
+  </div>
 {% endblock %}

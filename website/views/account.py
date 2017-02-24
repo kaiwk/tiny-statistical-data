@@ -9,7 +9,6 @@ account = Blueprint('account',
                     template_folder="../templates/account",
                     url_prefix='/account')
 
-
 def login_required(view_func):
     @wraps(view_func)
     def wrapper(*arg, **kwargs):
@@ -36,8 +35,9 @@ def login():
     password = request.form['password']
     user = User.validate_and_login(username, password)
     if not user:
-        return 'login failed!'
-    response = redirect(url_for("account.login_success"))
+        flash("username or password is not match.")
+        return redirect(url_for('account.login'))
+    response = redirect(url_for("statistics.index"))
     response.set_cookie('userid', user.userid)
     return response
 
@@ -51,7 +51,21 @@ def login_success():
 
 @account.route("/register/", methods=['GET', 'POST'])
 def register():
-    return render_template('registration_form.html')
+    if request.method == 'GET':
+        return render_template('registration_form.html')
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    confirm = request.form['confirm']
+    if password != confirm:
+        flash('password is not same as confirmed.')
+        return redirect(url_for("account.register"))
+    if not User.validate_and_register(username, email, password):
+        flash('username conflict! please change another username.')
+        return redirect(url_for('account.register'))
+    flash("Register Success.")
+    return redirect(url_for('account.login'))
+
 
 @account.route("/logout/", methods=['GET'])
 def logout():

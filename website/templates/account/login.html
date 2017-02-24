@@ -1,12 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'base_account.html' %}
 
 {% block title_block %}
   Login
 {% endblock %}
 
 {% block body_block %}
-  <link href="{{ url_for('static', filename='css/account.css') }}" rel="stylesheet"/>
-
+  {{ super() }}
   <div class="main-login main-center">
     <form class="form-horizontal" method="post" action="#">
 
@@ -34,6 +33,9 @@
 	<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Login</button>
       </div>
     </form>
+    <div class="login-register">
+      <a href="{{ url_for('account.register') }}">Register</a>
+    </div>
   </div>
 
 {% endblock %}
