@@ -1,27 +1,25 @@
 from flask import Flask, g
-import flask_login
+
+import json
+import os
 
 from .ext.flask_mysql.mysql import MySQL
 from werkzeug.local import LocalProxy
 
-_app = Flask(__name__)
+_app = Flask(__name__, instance_relative_config=True)
 _app.secret_key = 'this is a screte key!'
 
-# flask-login
-login_manager = flask_login.LoginManager()
-login_manager.init_app(_app)
-
 # database
-def _create_db():
-    # MySQL configurations
-    _app.config['MYSQL_DATABASE_USER'] = 'root'
-    _app.config['MYSQL_DATABASE_PASSWORD'] = '19951231'
-    _app.config['MYSQL_DATABASE_DB'] = 'tiny_statistical_data'
-    _app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-    _app.config['MYSQL_CURSOR_CLASS'] = 'dictcursor'
-    return LocalProxy(MySQL(_app).get_db)
+# MySQL configurations
+with open(os.path.join(_app.instance_path, '_private_config.json'), 'r') as f:
+    config = json.load(f)
+    _app.config['MYSQL_DATABASE_USER'] = config['MYSQL_DATABASE_USER']
+    _app.config['MYSQL_DATABASE_PASSWORD'] = config['MYSQL_DATABASE_PASSWORD']
+    _app.config['MYSQL_DATABASE_DB'] = config['MYSQL_DATABASE_DB']
+    _app.config['MYSQL_DATABASE_HOST'] = config['MYSQL_DATABASE_HOST']
+_app.config['MYSQL_CURSOR_CLASS'] = 'dictcursor'
 
-db = _create_db()
+db = LocalProxy(MySQL(_app).get_db)
 
 # blueprint
 def register_blueprint():
@@ -33,5 +31,5 @@ def register_blueprint():
 
 __all__ = [
     'register_blueprint',
-    'login_manager'
+    'db'
 ]

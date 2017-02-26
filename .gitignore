@@ -3,3 +3,4 @@ __pycache__
 TAGS
 .DS_Store
 venv
+_private*

@@ -7,7 +7,7 @@
 {% block body_block %}
   {{ super() }}
   <div class="main-login main-center">
-    <form class="form-horizontal" method="post" action="#">
+    <form class="form-horizontal" method="post" action="{{ url_for('account.login') }}">
 
       <div class="form-group">
 	<label for="username" class="cols-sm-2 control-label">Your Name</label>

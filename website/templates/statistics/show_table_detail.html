@@ -1,12 +1,11 @@
-{% extends 'gathering/base.html' %}
-
-{% load staticfiles %}
+{% extends 'base.html' %}
 
 {% block title_block %}
   Table
 {% endblock %}
 
 {% block body_block %}
+  <p>{{ serial_id }}</p>
   <h2 class="sub-header">{{ ownername }}的 {{ tablename }}</h2>
   <div class="table-responsive">
     <table class="table table-striped">
@@ -35,7 +34,7 @@
       </tbody>
     </table>
   </div>
-  <form action="{% url 'download_table' serial_key %}">
+  <form action="">
     <button id="btn-download-table" class="btn btn-primary" type="submit" value="submit">下载表单</button>
   </form>
 {% endblock %}

@@ -12,29 +12,43 @@
             <li><a href="">Profile</a></li>
 	    <li><a href="auth_logout?next=/gathering/">Logout</a></li>
 	    <li><a href="show_all_tables">我的表格</a></li>
-	    <li><a href="publish_table">发布表格</a></li>
+	    <li><a href="{{ url_for('statistics.publish_table') }}">发布表格</a></li>
 	  {#% else %#}
 	    <li><a href="auth_login">Login</a></li>
 	  {#% endif %#}
           <li><a href="">Help</a></li>
         </ul>
-        <form class="navbar-form navbar-right">
-          <input type="text" class="form-control" placeholder="Search...">
-        </form>
       </div>
     </div>
   </nav>
 {% endblock %}
 
 {% block body_block %}
-  <link href="{{ url_for('static', filename='css/statistics.css') }}" rel="stylesheet"/>
-  <div class="container">
-    <div class="row">
-      <h2>Slider Search box</h2>
-      <div class="search">
-        <input type="text" class="form-control input-sm" maxlength="64" placeholder="Search" />
-        <button type="submit" class="btn btn-primary btn-sm">Search</button>
-      </div>
+  <div class="container" style="margin-top: 15%;">
+    <div class="col-md-6 col-md-offset-3">
+
+      <!-- Search Form -->
+      <form method="post" action="{{ url_for('statistics.index') }}">
+
+        <!-- Search Field -->
+        <div class="row">
+          <h1 class="text-center">Statistics.</h1>
+          <div class="form-group">
+            <div class="input-group">
+              <input class="form-control" type="text" name="serial_id" placeholder="请输入表格的序列号" required/>
+              <span class="input-group-btn">
+                <button class="btn btn-success" type="submit">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                  <span style="margin-left:10px;">Search</span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <!-- End of Search Form -->
+
     </div>
   </div>
 {% endblock %}
