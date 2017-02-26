@@ -24,7 +24,7 @@ class User(object):
             from user where username=%s and password=%s',
             (username, password,))
         fetch_res = cursor.fetchone()
-        if fetch_res:
+        if fetch_res is not None:
             return cls(fetch_res)
 
     @classmethod
@@ -34,7 +34,7 @@ class User(object):
             'select id as userid from user where username=%s or email=%s',
             (username, email,))
         fetch_res = cursor.fetchone()
-        if fetch_res:
+        if fetch_res is not None:
             return False
         User.save(username, email, password)
         return True
@@ -45,7 +45,7 @@ class User(object):
         cursor.execute('select id as userid, username, password, email, face from user where id=%s',
                        (user_id,))
         fetch_res = cursor.fetchone()
-        if fetch_res:
+        if fetch_res is not None:
             return cls(fetch_res)
 
     @classmethod
@@ -56,7 +56,7 @@ class User(object):
             from user where username=%s',
             (username, ))
         fetch_res = cursor.fetchone()
-        if fetch_res:
+        if fetch_res is not None:
             return cls(fetch_res)
 
     @staticmethod

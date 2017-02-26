@@ -8,14 +8,14 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
 	  <li><a href="" data-toggle="modal" data-target="#modal-table-ids">填表</a></li>
-	  {#% if user.is_authenticated %#}
-            <li><a href="">Profile</a></li>
-	    <li><a href="auth_logout?next=/gathering/">Logout</a></li>
+	  {% if user is not none %}
+            <!-- <li><a href="">Profile</a></li> -->
+	    <li><a href="{{ url_for('account.logout') }}">Logout</a></li>
 	    <li><a href="show_all_tables">我的表格</a></li>
 	    <li><a href="{{ url_for('statistics.publish_table') }}">发布表格</a></li>
-	  {#% else %#}
-	    <li><a href="auth_login">Login</a></li>
-	  {#% endif %#}
+	  {% else %}
+	    <li><a href="{{ url_for('account.login') }}">Login</a></li>
+	  {% endif %}
           <li><a href="">Help</a></li>
         </ul>
       </div>

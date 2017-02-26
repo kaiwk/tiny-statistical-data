@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import (Blueprint, render_template, request,
+                   flash, redirect, url_for, session)
 
 from functools import wraps
 
@@ -12,10 +13,10 @@ account = Blueprint('account',
 def login_required(view_func):
     @wraps(view_func)
     def wrapper(*arg, **kwargs):
-        userid = request.cookies.get('userid')
-        if userid:
+        userid = session.get('userid')
+        if userid is not None:
             user = User.get_user_by_user_id(userid)
-            if user:
+            if user is not None:
                 return view_func(*arg, **kwargs)
             else:
                 flash('Session exsits, but user does not exsit')
@@ -34,18 +35,21 @@ def login():
     username = request.form['username']
     password = request.form['password']
     user = User.validate_and_login(username, password)
-    if not user:
+    if user is None:
         flash("username or password is not match.")
         return redirect(url_for('account.login'))
-    response = redirect(url_for("statistics.index"))
-    response.set_cookie('userid', user.userid)
-    return response
+    session['userid'] = user.userid
+    return redirect(url_for('statistics.index'))
 
+@account.route("/logout/", methods=['GET'])
+def logout():
+    session.pop('userid', None)
+    return redirect(url_for('statistics.index'))
 
 @account.route("/login_success/")
 @login_required
 def login_success():
-    user = User.get_user_by_user_id(request.cookies['userid'])
+    user = User.get_user_by_user_id(session['userid'])
     return render_template("login_success.html", user=user)
 
 
@@ -65,8 +69,3 @@ def register():
         return redirect(url_for('account.register'))
     flash("Register Success.")
     return redirect(url_for('account.login'))
-
-
-@account.route("/logout/", methods=['GET'])
-def logout():
-    return 'logout'
