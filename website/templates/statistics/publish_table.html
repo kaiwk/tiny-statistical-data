@@ -5,5 +5,11 @@
 {% endblock %}
 
 {% block body_block %}
-  publish table
+  <h1>publish table</h1>
+  <form method="post" enctype="multipart/form-data">
+    <p>
+      <input type="file" name="file">
+      <input type="submit" value="upload">
+    </p>
+  </form>
 {% endblock %}

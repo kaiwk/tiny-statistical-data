@@ -1,8 +1,15 @@
 from flask import (Blueprint, render_template, request,
                    flash, redirect, url_for, session)
 
+from werkzeug.utils import secure_filename
+
+import os
+import time
+
+from website import app
 from website.views.account import login_required
 from website.models.user import User
+
 
 statistics = Blueprint('statistics',
                        __name__,
@@ -26,3 +33,25 @@ def index():
 def publish_table():
     if request.method == 'GET':
         return render_template('publish_table.html')
+
+    # check if the post request has the file part
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+
+    # if user does not select file, browser also
+    # submit a empty part without filename
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(int(time.time())) + '-' + filename))
+        return 'upload ' + filename + ' success'
+
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
