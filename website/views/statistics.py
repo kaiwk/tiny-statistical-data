@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 
 import os
 import time
+import csv
+import io
 
 from website import app
 from website.views.account import login_required
@@ -45,13 +47,31 @@ def publish_table():
     if file.filename == '':
         flash('No selected file')
         return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(int(time.time())) + '-' + filename))
-        return 'upload ' + filename + ' success'
+
+    # get csv file
+    if file and _allowed_file(file.filename):
+        utf8_converted_str = file.stream.read().decode('utf-8')
+        csvdict = csv.reader(io.StringIO(utf8_converted_str))
+        example = []
+        for line in csvdict:
+            example.append(line)
+        table_head = example[0]
+        table_rows = example[1:]
+        return render_template('publish_table.html',
+                               table_head=table_head,
+                               table_rows=table_rows)
+
+@statistics.route('/save_example_table/', methods=['GET', 'POST'])
+@login_required
+def save_example_table ():
+    if request.method == 'POST':
+        table_head = request.form['table_head']
+        table_rows = request.form['table_rows']
+        print(table_head)
+        print(table_rows)
+        return render_template('save_example_table.html')
 
 
-
-def allowed_file(filename):
+def _allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']

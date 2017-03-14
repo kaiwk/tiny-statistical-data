@@ -40,7 +40,7 @@
       </tbody>
     </table>
 
-    <form action="{{ url_for('statistics.save_example_table') }}" method="post">
+    <form action="{{ url_for('statistics.publish_table') }}" method="post">
       <input type="hidden" name="table_head" value="{{ table_head }}">
       <input type="hidden" name="table_rows" value="{{ table_rows }}">
       <input type="submit" value="confirm">
