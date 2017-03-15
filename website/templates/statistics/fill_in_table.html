@@ -6,7 +6,6 @@
 
 {% block body_block %}
 
-  <p>{{ serial_key }}</p>
   <h2 class="sub-header">{{ tablename }}</h2>
   <div class="table-responsive">
     <table class="table table-bordered">
@@ -27,6 +26,15 @@
 	    {% endfor %}
 	  </tr>
 	{% endfor %}
+
+	{% if fillin_row %}
+	  <tr>
+	    <td>#</td>
+	    {% for e in fillin_row %}
+	      <td>{{ e }}</td>
+	    {% endfor %}
+	  </tr>
+	{% endif %}
       </tbody>
     </table>
   </div>
@@ -38,15 +46,17 @@
    input { display: table-cell; }
   </style>
 
-  <form method="post">
-    <input name="tableid" type="hidden" value="{{ g.statistical_table_id }}"/>
-    {% for e in head %}
-      <p>
-	<label for="{{ e }}" class="cols-sm-2 control-label">{{ e }}</label>
-	<input name="{{ e }}" type="text"/><br/>
-      </p>
-    {% endfor %}
-    <input type="submit" class="btn btn-primary" value="Confirm">
-  </form>
+  {% if not fillin_row %}
+    <form method="post">
+      <input name="tableid" type="hidden" value="{{ g.statistical_table_id }}"/>
+      {% for e in head %}
+	<p>
+	  <label for="{{ e }}" class="cols-sm-2 control-label">{{ e }}</label>
+	  <input name="{{ e }}" type="text"/><br/>
+	</p>
+      {% endfor %}
+      <input type="submit" class="btn btn-primary" value="Confirm">
+    </form>
+  {% endif %}
 
 {% endblock %}

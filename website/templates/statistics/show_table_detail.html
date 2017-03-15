@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+  Show table detail
+{% endblock %}
+
+{% block body_block %}
+  <p>Tablename: {{ tablename }}</p>
+  <table class="table table-bordered">
+    <caption>{{ tablename }}</caption>
+    <thead>
+      <tr>
+	{% for e in tablehead %}
+	  <th>{{ e }}</th>
+	{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in all_rows %}
+	<tr>
+	  {% for e in row %}
+	    <td>{{ e }}</td>
+	  {% endfor %}
+	</tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
