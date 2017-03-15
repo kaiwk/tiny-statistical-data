@@ -28,14 +28,14 @@
     <div class="col-md-6 col-md-offset-3">
 
       <!-- Search Form -->
-      <form method="post" action="{{ url_for('statistics.index') }}">
+      <form method="get" action="{{ url_for('statistics.fill_in_table') }}">
 
         <!-- Search Field -->
         <div class="row">
           <h1 class="text-center">Statistics.</h1>
           <div class="form-group">
             <div class="input-group">
-              <input class="form-control" type="text" name="serial_id" placeholder="请输入表格的序列号" required/>
+              <input class="form-control" type="text" name="serial_key" placeholder="请输入表格的序列号" required/>
               <span class="input-group-btn">
                 <button class="btn btn-success" type="submit">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

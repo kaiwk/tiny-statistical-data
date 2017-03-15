@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+  Table
+{% endblock %}
+
+{% block body_block %}
+
+  <p>{{ serial_key }}</p>
+  <h2 class="sub-header">{{ tablename }}</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+	<tr>
+	  <th>id</th>
+	  {% for th in head %}
+	    <th>{{ th }}</th>
+	  {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	{% for r in rows  %}
+	  <tr>
+	    <td>（样例）</td>
+	    {% for d in r %}
+	      <td>{{ d }}</td>
+	    {% endfor %}
+	  </tr>
+	{% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+   form  { display: table;      }
+   p     { display: table-row;  }
+   label { display: table-cell; }
+   input { display: table-cell; }
+  </style>
+
+  <form method="post">
+    <input name="tableid" type="hidden" value="{{ g.statistical_table_id }}"/>
+    {% for e in head %}
+      <p>
+	<label for="{{ e }}" class="cols-sm-2 control-label">{{ e }}</label>
+	<input name="{{ e }}" type="text"/><br/>
+      </p>
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" value="Confirm">
+  </form>
+
+{% endblock %}

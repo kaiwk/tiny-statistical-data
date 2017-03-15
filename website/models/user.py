@@ -63,7 +63,7 @@ class User(object):
     def save(username, email, password, face=None):
         cursor = db.cursor()
         cursor.execute(
-            'insert user (username, email, password, face) values (%s, %s, %s, %s)',
+            'insert into user (username, email, password, face) values (%s, %s, %s, %s)',
             (username, email, password, face,)
         )
         db.commit()
