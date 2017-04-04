@@ -1,11 +1,8 @@
-from flask import (Blueprint, render_template, request,
-                   flash, redirect, url_for, session, g)
-
-from werkzeug.utils import secure_filename
-
 import csv
 import io
-import json
+
+from flask import (Blueprint, render_template, request,
+                   flash, redirect, session, g)
 
 from website import app
 from website.views.account import login_required
@@ -111,9 +108,10 @@ def publish_table():
 
 @statistics.route('/save_example_table/', methods=['GET', 'POST'])
 @login_required
-def save_example_table ():
+def save_example_table():
     if request.method == 'POST':
         name = request.form['name']
+        # TODO: auto generate serial key
         serial_key = request.form['serial_key']
         table_example = request.form['table_example']
         head, rows = table_example.split('\n', 1)
