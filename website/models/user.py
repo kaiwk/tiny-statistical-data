@@ -93,3 +93,10 @@ class User(object):
         return 'userid: ' + self._userid + '\n' + \
             'username: ' + self._name + '\n' + \
             'email: ' + self._email + '\n'
+
+    def __dict__ (self):
+        return {
+            'userid': self._userid,
+            'username': self._name,
+            'email': self._email
+        }

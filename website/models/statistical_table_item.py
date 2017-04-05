@@ -22,7 +22,7 @@ class StatisticalTableItem(object):
         return items
 
     @staticmethod
-    def save (content, statistical_table_id):
+    def save (statistical_table_id, content):
         cursor = db.cursor()
         cursor.execute(
             'insert into statistical_table_item (content, statistical_table_id) value (%s, %s)',
@@ -36,3 +36,10 @@ class StatisticalTableItem(object):
             'select count(*) from statistical_table_item'
         )
         return cursor.fetchone()['count(*)']
+
+
+    def __dict__(self):
+        return {
+            'content': self.content,
+            'statistical_table_id': self.statistical_table_id
+        }

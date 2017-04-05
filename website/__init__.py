@@ -28,8 +28,10 @@ app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'upload')
 def register_blueprint():
     from .views.account import account
     from .views.statistics import statistics
+    from .api.apiv1 import apiv1
     app.register_blueprint(account)
     app.register_blueprint(statistics)
+    app.register_blueprint(apiv1)
     return app
 
 __all__ = [

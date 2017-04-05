@@ -55,7 +55,7 @@ def fill_in_table():
         fillin_row = [fillin[h] for h in head]
         content = ','.join(fillin_row)
 
-        StatisticalTableItem.save(content, tableid)
+        StatisticalTableItem.save(tableid, content)
 
         return render_template('fill_in_table.html',
                                tablename=tablename,

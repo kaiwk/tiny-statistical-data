@@ -1,6 +1,5 @@
 from website import db
 
-
 class StatisticalTable(object):
 
     def __init__(self, tableinfo):
@@ -61,3 +60,16 @@ class StatisticalTable(object):
         )
         fetch_res = cursor.fetchone()
         return cls(fetch_res)
+
+
+    def __dict__(self):
+        return {
+            'tableid': self.tableid,
+            'serial_key': self.serial_key,
+            'head': self.head,
+            'sample': self.sample,
+            'name': self.name,
+            'user_id': self.user_id,
+            'create_time': self.create_time,
+            'update_time': self.update_time
+        }
