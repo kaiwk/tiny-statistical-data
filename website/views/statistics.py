@@ -2,7 +2,7 @@ import csv
 import io
 
 from flask import (Blueprint, render_template, request,
-                   flash, redirect, session, g)
+                   flash, redirect, session, g, send_file)
 
 from website import app
 from website.views.account import login_required
@@ -130,15 +130,32 @@ def show_all_tables():
     tables = StatisticalTable.get_statistical_tables_by_user_id(userid)
     return render_template('show_all_tables.html', tables=tables)
 
-@statistics.route('/show_table_detail/<int:tableid>', methods=['GET'])
+@statistics.route('/show_table_detail/<int:tableid>', methods=['GET', 'POST'])
 @login_required
 def show_table_detail(tableid):
     table = StatisticalTable.get_statistical_table_by_table_id(tableid)
+    session['tableid'] = table.tableid
     items = StatisticalTableItem.get_all_items_by_statistical_table_id(tableid)
     tablehead = table.head.split(',')
     all_rows = [item.content.split(',') for item in items]
-    print(table.head)
     return render_template('show_table_detail.html',
                            tablename=table.name,
                            tablehead=tablehead,
                            all_rows=all_rows)
+
+
+@statistics.route('/download_table/', methods=['POST'])
+@login_required
+def download_table():
+    if request.method == 'POST':
+        tableid = session.get('tableid')
+        table = StatisticalTable.get_statistical_table_by_table_id(tableid)
+        items = StatisticalTableItem.get_all_items_by_statistical_table_id(tableid)
+        all_rows = [item.content for item in items]
+        csv_content = table.head + '\n' + '\n'.join(all_rows)
+        byteIO = io.BytesIO()
+        byteIO.write(csv_content.encode())
+        byteIO.seek(0)
+        return send_file(byteIO,
+                         attachment_filename=table.name+'.csv',
+                         as_attachment=True)

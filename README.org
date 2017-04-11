@@ -1,0 +1,7 @@
+* Tiny Statistical Data
+It is a [[http:120.24.71.96/tinysd/statistics/][website]] for collecting data.
+
+** Try it
+ open the website:
+ 1. input a serial key '1234' for a try.
+ 2. egister and play around.

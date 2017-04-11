@@ -25,4 +25,9 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <form method="post" action="{{ url_for('statistics.download_table') }}">
+    <input type="submit" class="btn btn-primary" value="Download">
+  </form>
+
 {% endblock %}
