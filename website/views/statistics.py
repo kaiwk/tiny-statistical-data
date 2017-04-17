@@ -83,13 +83,13 @@ def publish_table():
         return render_template('publish_table.html')
 
     # check if the post request has the file part
-    if 'file' not in request.files:
+    if 'uploaded-file' not in request.files:
         flash('No file part')
         return redirect(request.url)
 
     # if user does not select file, browser also
     # submit a empty part without filename
-    file = request.files['file']
+    file = request.files['uploaded-file']
     if file.filename == '':
         flash('No selected file')
         return redirect(request.url)

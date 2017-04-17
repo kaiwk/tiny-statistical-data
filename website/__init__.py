@@ -3,7 +3,7 @@ from flask import Flask, g
 import json
 import os
 
-from .ext.flask_mysql.mysql import MySQL
+from website.ext.flask_mysql.mysql import MySQL
 from werkzeug.local import LocalProxy
 
 app = Flask(__name__, instance_relative_config=True)
@@ -26,9 +26,9 @@ app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'upload')
 
 # blueprint
 def register_blueprint():
-    from .views.account import account
-    from .views.statistics import statistics
-    from .api.apiv1 import apiv1
+    from website.views.account import account
+    from website.views.statistics import statistics
+    from website.api.apiv1 import apiv1
     app.register_blueprint(account)
     app.register_blueprint(statistics)
     app.register_blueprint(apiv1)

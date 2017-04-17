@@ -46,13 +46,6 @@ def logout():
     session.pop('userid', None)
     return redirect(url_for('statistics.index'))
 
-@account.route("/login_success/")
-@login_required
-def login_success():
-    user = User.get_user_by_user_id(session['userid'])
-    return render_template("login_success.html", user=user)
-
-
 @account.route("/register/", methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
