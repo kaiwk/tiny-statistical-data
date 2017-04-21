@@ -1,4 +1,3 @@
-import csv
 import io
 
 from flask import (Blueprint, render_template, request,
@@ -10,6 +9,7 @@ from website.models.user import User
 from website.models.statistical_table import StatisticalTable
 from website.models.statistical_table_item import StatisticalTableItem
 
+from website.ext.csv_parser import csv_parser
 
 statistics = Blueprint('statistics',
                        __name__,
@@ -69,8 +69,7 @@ def _get_table_info(statistical_table):
     head = statistical_table.head
     sample = statistical_table.sample
     csv_str = '\n'.join((head, sample))
-    csvlist = csv.reader(io.StringIO(csv_str))
-    temp = [line for line in csvlist]
+    temp = csv_parser.get_lines(csv_str)
     head = temp[0]
     rows = temp[1:]
     return tablename, head, rows
@@ -97,8 +96,7 @@ def publish_table():
     # get csv file
     if file and _allowed_file(file.filename):
         utf8_converted_str = file.stream.read().decode('utf-8')
-        csvlist = csv.reader(io.StringIO(utf8_converted_str))
-        temp = [line for line in csvlist]
+        temp = csv_parser.get_lines(utf8_converted_str)
         table_head = temp[0]
         table_rows = temp[1:]
         g.table_example = utf8_converted_str
@@ -130,12 +128,12 @@ def show_all_tables():
     tables = StatisticalTable.get_statistical_tables_by_user_id(userid)
     return render_template('show_all_tables.html', tables=tables)
 
-@statistics.route('/show_table_detail/<int:tableid>', methods=['GET', 'POST'])
+@statistics.route('/show_table_detail/<serial_key>', methods=['GET', 'POST'])
 @login_required
-def show_table_detail(tableid):
-    table = StatisticalTable.get_statistical_table_by_table_id(tableid)
+def show_table_detail(serial_key):
+    table = StatisticalTable.get_statistical_table_by_serial_key(serial_key)
     session['tableid'] = table.tableid
-    items = StatisticalTableItem.get_all_items_by_statistical_table_id(tableid)
+    items = StatisticalTableItem.get_all_items_by_statistical_table_id(table.tableid)
     tablehead = table.head.split(',')
     all_rows = [item.content.split(',') for item in items]
     return render_template('show_table_detail.html',
@@ -152,7 +150,7 @@ def download_table():
         table = StatisticalTable.get_statistical_table_by_table_id(tableid)
         items = StatisticalTableItem.get_all_items_by_statistical_table_id(tableid)
         all_rows = [item.content for item in items]
-        csv_content = table.head + '\n' + '\n'.join(all_rows)
+        csv_content = table.head + '\n' + csv_parser.get_content(all_rows)
         byteIO = io.BytesIO()
         byteIO.write(csv_content.encode())
         byteIO.seek(0)

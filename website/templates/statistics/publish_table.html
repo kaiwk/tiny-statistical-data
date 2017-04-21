@@ -62,9 +62,10 @@
     </style>
     <form method="post" enctype="multipart/form-data">
       <label id="file-upload">
-	    <input type="file" name="uploaded-file" accept=".csv">
+	    <input id="csv-upload" type="file" name="uploaded-file" accept=".csv">
         <span id="choose-file">choose file</span>
       </label><br/>
+      <p id="selected-file">not select yet.</p>
       <input type="submit" class="btn btn-primary" value="upload">
     </form>
   {% endif %}

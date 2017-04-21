@@ -5,3 +5,25 @@ It is a [[http:120.24.71.96/tinysd/statistics/][website]] for collecting data.
  open the website:
  1. input a serial key '1234' for a try.
  2. register it and play around.
+
+** API
+*** GET
+http://120.24.71.96/tinysd/apiv1.0/get_table_info/<serial_key>/
+http://120.24.71.96/tinysd/apiv1.0/get_table_items/<serial_key>/
+
+e.g:
+http://120.24.71.96/tinysd/apiv1.0/get_table_info/1234/
+
+
+*** POST
+http://120.24.71.96/tinysd/apiv1.0/fill_in_table/
+| key        | value                   |
+|------------+-------------------------|
+| serial_key | <serial_key>            |
+| content    | <item data in csv type> |
+
+eg:
+| key        | value               |
+|------------+---------------------|
+| serial_key | 1234                |
+| content    | John,21,11,20110013 |

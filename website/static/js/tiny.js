@@ -1,7 +1,9 @@
 $(document).ready(function(){
-  $('input[name="file-upload"]').change(function () {
-    var fileName = $(this).val();
-    var arr = fileName.split('/');
-    $('#choose-file').text(arr[arr.length-1])
+  $('#csv-upload').change(function() {
+    var rawPath = $(this).val();
+    var refinePath = rawPath.replace(/\\/g,'/');
+
+    var arr = refinePath.split("/");
+    $('#selected-file').text(arr[arr.length-1]);
   });
 });

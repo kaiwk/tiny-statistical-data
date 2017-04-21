@@ -1,8 +1,7 @@
-from flask import Flask, g
-
 import json
 import os
 
+from flask import Flask, g
 from website.ext.flask_mysql.mysql import MySQL
 from werkzeug.local import LocalProxy
 

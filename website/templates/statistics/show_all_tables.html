@@ -7,7 +7,7 @@
 {% block body_block %}
   <ul>
     {% for table in tables %}
-      <li><a href="{{ url_for('statistics.show_table_detail', tableid=table.tableid) }}">{{ table.name }}</a></li>
+      <li><a href="{{ url_for('statistics.show_table_detail', serial_key=table.serial_key) }}">{{ table.name }}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}
