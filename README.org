@@ -9,7 +9,6 @@ It is a [[http:120.24.71.96/tinysd/statistics/][website]] for collecting data.
 ** API
 *** GET
 =http://120.24.71.96/tinysd/apiv1.0/get_table_info/<serial_key>/=
-
 =http://120.24.71.96/tinysd/apiv1.0/get_table_items/<serial_key>/=
 
 e.g:
