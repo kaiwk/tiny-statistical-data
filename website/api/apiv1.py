@@ -1,6 +1,5 @@
 from flask import (Blueprint, request, jsonify, abort, make_response)
 
-from website.models.user import User
 from website.models.statistical_table import StatisticalTable
 from website.models.statistical_table_item import StatisticalTableItem
 
