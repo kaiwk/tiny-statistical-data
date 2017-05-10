@@ -1,4 +1,5 @@
 import io
+from random import Random
 
 from flask import (Blueprint, render_template, request,
                    flash, redirect, session, g, send_file)
@@ -141,6 +142,11 @@ def show_table_detail(serial_key):
                            tablehead=tablehead,
                            all_rows=all_rows)
 
+def random_str(randomlength=32):
+    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
+    random = Random()
+    randomChar = random.sample(chars, randomlength)
+    return ''.join(randomChar)
 
 @statistics.route('/download_table/', methods=['POST'])
 @login_required
@@ -155,5 +161,5 @@ def download_table():
         byteIO.write(csv_content.encode())
         byteIO.seek(0)
         return send_file(byteIO,
-                         attachment_filename=table.name+'.csv',
+                         attachment_filename=random_str()+'.csv',
                          as_attachment=True)
