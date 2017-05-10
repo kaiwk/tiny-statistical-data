@@ -1,7 +1,7 @@
+from functools import wraps
+
 from flask import (Blueprint, render_template, request,
                    flash, redirect, url_for, session)
-
-from functools import wraps
 
 from website.models.user import User
 
